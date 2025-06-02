@@ -1,0 +1,211 @@
+<!-- =======================
+🎯 HERO SECTION : TRACKING RAPIDE
+Action : formulaire de tracking simple, redirige vers /tracking/result/:id
+Backend requis : GET /api/tracking/:id
+Auth requise : ❌ Non
+======================= -->
+<section class="hero" id="home">
+  <div class="container">
+    <h1 class="hero__title">Suivre un colis</h1>
+    <p class="hero__subtitle">Entrez votre numéro de suivi Globex</p>
+
+    <div class="hero__tracking">
+      <form class="tracking-form" (submit)="trackPackage(); $event.preventDefault()">
+        <input
+          type="text"
+          class="tracking-form__input"
+          placeholder="Ex: GBX123456789"
+          [(ngModel)]="trackingNumber"
+          name="trackingNumber"
+          required
+        />
+        <button type="submit" class="tracking-form__btn">Track</button>
+      </form>
+
+      <!-- 📸 À intégrer plus tard : icône de scan + action mobile -->
+      <div class="tracking-form__scan">
+        <i class="fas fa-qrcode"></i>
+        <span>Scanner un code-barres (à venir)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================
+🙋 HELP SECTION
+Contenu : CTA vers support, contact et futur chatbot
+Backend : ❌ Aucun (formulaire Contact + futur Chatbot à connecter)
+Auth requise : ❌ Non
+======================= -->
+<section class="need-help" id="help">
+  <div class="container need-help__content">
+    <div class="need-help__text">
+      <h2>Besoin d'aide ?</h2>
+      <p>Accédez à notre FAQ, contactez-nous ou posez votre question à notre assistant.</p>
+
+      <div class="need-help__actions">
+        <a routerLink="/help" class="btn btn--secondary">Voir l'aide</a>
+        <a routerLink="/contact" class="btn btn--primary">Nous contacter</a>
+      </div>
+
+      <!-- Chatbot à implémenter -->
+      <div class="chatbot-placeholder">
+        <i class="fas fa-robot"></i>
+        <p>Zone réservée à un assistant IA</p>
+      </div>
+    </div>
+
+    <!-- 📸 Illustration suggérée : /assets/help-center.svg -->
+    <div class="need-help__image">
+      <img src="/assets/help-center.svg" alt="Illustration support Globex" />
+    </div>
+  </div>
+</section>
+
+<!-- =======================
+🧭 SECTION MÉTHODES DE TRACKING
+Actions : clique redirige vers composants spécifiques
+Backend : dépend de la méthode (by id, by ref, by email)
+Auth requise : mix ✅/❌
+======================= -->
+<section class="guidance">
+  <div class="container">
+    <div class="guidance__header">
+      <h2>Choisissez votre méthode de suivi</h2>
+    </div>
+
+    <div class="guidance__grid">
+      <div class="guidance__card" routerLink="/tracking/by-id">
+        <div class="guidance__card-icon"><i class="fas fa-barcode"></i></div>
+        <h3>Par numéro</h3>
+        <p>Saisissez un numéro de suivi standard</p>
+      </div>
+
+      <div class="guidance__card" routerLink="/tracking/by-reference">
+        <div class="guidance__card-icon"><i class="fas fa-file-alt"></i></div>
+        <h3>Par référence</h3>
+        <p>Commandes internes / B2B</p>
+      </div>
+
+      <div class="guidance__card" routerLink="/tracking/by-email">
+        <div class="guidance__card-icon"><i class="fas fa-envelope"></i></div>
+        <h3>Par email</h3>
+        <p>Afficher tous vos colis liés à votre adresse email</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================
+⚙️ SECTION OUTILS AVANCÉS
+Affichée uniquement si connecté (isLoggedIn)
+Backend : GET /api/tracking/export, /map/:id, /bulk
+Auth requise : ✅ Oui
+======================= -->
+<section class="advanced-tools" *ngIf="isLoggedIn">
+  <div class="container">
+    <h2>Outils professionnels</h2>
+    <div class="advanced-tools__grid">
+      <div class="advanced-tools__card" routerLink="/advanced-tracking/export">
+        <i class="fas fa-file-csv"></i>
+        <h3>Export CSV</h3>
+        <p>Exportez tous vos colis suivis</p>
+      </div>
+
+      <div class="advanced-tools__card" routerLink="/live-map/GBX123456">
+        <i class="fas fa-map-marked-alt"></i>
+        <h3>Carte en temps réel</h3>
+        <p>Suivez la géoloc de votre colis</p>
+      </div>
+
+      <div class="advanced-tools__card" routerLink="/multi-tracking">
+        <i class="fas fa-boxes"></i>
+        <h3>Suivi multiple</h3>
+        <p>Trackez plusieurs colis à la fois</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================
+📰 SECTION NEWS
+Données dynamiques (boucle *ngFor), image dynamique
+Backend : GET /api/news
+Auth requise : ❌ Non
+======================= -->
+<section class="news">
+  <div class="container">
+    <h2>Actualités Globex</h2>
+
+    <div class="news__grid">
+      <article class="news__card" *ngFor="let n of news">
+        <!-- 📸 Image à charger depuis un champ n.imageUrl -->
+        <div class="news__card-image">
+          <img [src]="n.imageUrl" alt="Image actualité" />
+        </div>
+
+        <div class="news__card-content">
+          <div class="news__card-date">{{ n.date }}</div>
+          <h3>{{ n.title }}</h3>
+          <p>{{ n.summary }}</p>
+          <a [routerLink]="['/news', n.slug]" class="btn btn--link">
+            Lire l’article <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =======================
+❓ SECTION FAQ
+Données dynamiques, toggle avec click
+Backend : optionnel (GET /api/faq)
+Auth requise : ❌ Non
+======================= -->
+<section class="faq">
+  <div class="container">
+    <h2>FAQ - Questions fréquentes</h2>
+    <div class="faq__container">
+      <div class="faq__item" *ngFor="let q of faqList">
+        <button (click)="toggleFAQ(q)" [attr.aria-expanded]="q.open" class="faq__question">
+          <span>{{ q.question }}</span>
+          <i class="fas fa-chevron-down faq__icon"></i>
+        </button>
+        <div class="faq__answer" [class.active]="q.open">
+          <p>{{ q.answer }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================
+📄 FOOTER
+Statique mais stylé (liens cliquables)
+======================= -->
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 Globex Logistics. Tous droits réservés.</p>
+  </div>
+</footer>
+
+<!-- =======================
+🔔 NOTIFICATIONS FLOTTANTES
+Données dynamiques (push par events)
+======================= -->
+<div class="notifications">
+  <div
+    *ngFor="let notif of currentNotifs"
+    class="notification"
+    [ngClass]="'notification--' + notif.type"
+  >
+    <div class="notification__header">
+      <span class="notification__title">{{ notif.title }}</span>
+      <button (click)="removeNotification(notif)" class="notification__close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="notification__message">{{ notif.message }}</div>
+  </div>
+</div>

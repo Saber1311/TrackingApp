@@ -1,0 +1,125 @@
+<!--
+📍 BREADCRUMB (navigation)
+➡️ Permet de revenir à la home ou section tracking
+-->
+<nav class="breadcrumb">
+  <a routerLink="/home">Home</a> /
+  <a routerLink="/tracking">Tracking</a> /
+  <span>{{ trackingId }}</span>
+</nav>
+
+<!--
+🎯 HEADER SUIVI COLIS
+➡️ Affiche l’ID + boutons actions + badge statut
+-->
+<section class="tracking-header" *ngIf="trackingData">
+  <div class="header-left">
+    <h1>{{ trackingData.tracking_id }}</h1>
+    <p>Est. delivery: {{ trackingData.estimated_delivery | date:'fullDate' }} à {{ trackingData.estimated_delivery | date:'shortTime' }}</p>
+  </div>
+
+  <div class="header-actions">
+    <button (click)="shareTracking()">🔗 Share</button>
+    <button (click)="printPage()">🖨 Print</button>
+    <button *ngIf="isLoggedIn" (click)="saveToFavorites()">⭐ Save</button>
+  </div>
+
+  <span class="status-badge" [ngClass]="trackingData.status">{{ trackingData.status | titlecase }}</span>
+</section>
+
+<!--
+📊 BARRE DE PROGRESSION
+➡️ Indique où en est le colis (5 étapes)
+-->
+<section class="progress-bar" *ngIf="trackingData">
+  <div class="step" *ngFor="let step of trackingData.steps; let i = index"
+       [ngClass]="{ 'completed': step.completed, 'current': isCurrentStep(i) }">
+    <i class="fas" [ngClass]="getIconForStep(step.label)"></i>
+    <span>{{ step.label }}</span>
+  </div>
+</section>
+
+<!--
+🚚 INFORMATIONS DE LIVRAISON & DÉTAILS
+➡️ Expéditeur, destinataire, package, options
+-->
+<div class="tracking-layout" *ngIf="trackingData">
+  <!-- Colonne gauche : détails colis -->
+  <section class="details-left">
+    <div class="shipment-info">
+      <h3>Expéditeur</h3>
+      <p>{{ trackingData.sender.name }}</p>
+      <p>{{ trackingData.sender.address }}</p>
+
+      <h3>Destinataire</h3>
+      <p>{{ trackingData.recipient.name }}</p>
+      <p>{{ trackingData.recipient.address }}</p>
+
+      <h3>Service</h3>
+      <p>Globex Express</p>
+    </div>
+
+    <div class="package-info">
+      <h3>Informations colis</h3>
+      <ul>
+        <li><strong>Poids :</strong> {{ trackingData.package.weight }}</li>
+        <li><strong>Dimensions :</strong> {{ trackingData.package.dimensions }}</li>
+        <li><strong>Pièces :</strong> {{ trackingData.package.pieces }}</li>
+        <li><strong>Assurance :</strong> {{ trackingData.package.insurance }}</li>
+      </ul>
+    </div>
+
+    <div class="location-info">
+      <h3>Dernière localisation</h3>
+      <p>{{ trackingData.location.name }}</p>
+      <p>{{ trackingData.location.address }}</p>
+    </div>
+  </section>
+
+  <!-- Colonne droite : options & carte -->
+  <section class="details-right">
+    <div class="delivery-options">
+      <h3>Options de livraison</h3>
+      <div class="option-card" (click)="scheduleDelivery()">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Planifier la livraison</span>
+      </div>
+      <div class="option-card" (click)="changeAddress()">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Changer l’adresse</span>
+      </div>
+      <div class="option-card" (click)="holdAtLocation()">
+        <i class="fas fa-store"></i>
+        <span>Conserver en agence</span>
+      </div>
+      <div class="option-card" (click)="addInstructions()">
+        <i class="fas fa-comment-alt"></i>
+        <span>Ajouter des instructions</span>
+      </div>
+    </div>
+
+    <!-- 🗺️ À remplacer par carte Leaflet + coord -->
+   <div class="map-placeholder">
+  <h4>Suivi en temps réel</h4>
+  <div #mapBox class="map-box"></div>
+</div>
+
+
+<!--
+🕓 HISTORIQUE DE SUIVI
+➡️ Timeline verticale avec événements
+-->
+<section class="tracking-history" *ngIf="trackingData">
+  <h3>Historique</h3>
+  <div class="history-item" *ngFor="let item of trackingData.history">
+    <i class="fas fa-dot-circle"></i>
+    <div>
+      <p><strong>{{ item.status }}</strong> - {{ item.location }}</p>
+      <small>{{ item.timestamp | date:'full' }}</small>
+    </div>
+  </div>
+</section>
+
+<!-- LOADING & ERROR STATE -->
+<section *ngIf="isLoading" class="loading">Chargement en cours...</section>
+<section *ngIf="error" class="error">{{ error }}</section>

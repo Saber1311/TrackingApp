@@ -1,0 +1,201 @@
+// 🎨 Variables
+$primary: #4d148c;
+$accent: #ff6600;
+$success: #10b981;
+$warning: #f59e0b;
+$error: #ef4444;
+$gray: #6b7280;
+$light: #f9fafb;
+$white: #fff;
+$border: #e5e7eb;
+
+.dashboard-container {
+  padding: 32px;
+
+  .welcome {
+    margin-bottom: 24px;
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    p {
+      color: $gray;
+    }
+  }
+
+  .stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    .stat-card {
+      flex: 1;
+      background: $white;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid $border;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+      }
+
+      .icon {
+        font-size: 28px;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      span {
+        font-size: 13px;
+        color: $gray;
+        text-transform: uppercase;
+      }
+
+      .trend {
+        font-size: 12px;
+
+        &.up {
+          color: $success;
+        }
+
+        &.down {
+          color: $error;
+        }
+      }
+
+      &.exception .icon { color: $error; }
+      &.pending .icon { color: $primary; }
+      &.delivered .icon { color: $success; }
+    }
+  }
+
+  .table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .actions {
+      display: flex;
+      gap: 12px;
+
+      button {
+        background: $white;
+        border: 1px solid $border;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        &:hover {
+          background: $light;
+        }
+      }
+    }
+  }
+
+  .shipment-table {
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        text-align: left;
+        background: $light;
+        padding: 12px;
+        font-weight: 600;
+        border-bottom: 1px solid $border;
+      }
+
+      td {
+        padding: 12px;
+        border-bottom: 1px solid $border;
+        font-size: 14px;
+      }
+
+      a {
+        color: $primary;
+        font-weight: 600;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 4px;
+      }
+    }
+  }
+
+  // 💬 Modal
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    .modal {
+      background: $white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px;
+        border-bottom: 1px solid $border;
+        font-weight: 600;
+        font-size: 18px;
+
+        button {
+          background: none;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+
+      .modal-body {
+        padding: 20px;
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 16px;
+          margin-bottom: 24px;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          li {
+            margin-bottom: 8px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

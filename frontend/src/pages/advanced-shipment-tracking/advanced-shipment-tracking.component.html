@@ -1,0 +1,223 @@
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="container">
+    <nav class="navbar">
+      <a routerLink="/" class="navbar__logo">
+        <img src="assets/images/fedex-logo.png" alt="FedEx Logo" class="logo">
+      </a>
+      
+      <ul class="navbar__menu">
+        <li><a routerLink="/shipping" routerLinkActive="active">Shipping</a></li>
+        <li><a routerLink="/tracking" routerLinkActive="active">Tracking</a></li>
+        <li><a routerLink="/support" routerLinkActive="active">Support</a></li>
+        <li><a routerLink="/account" routerLinkActive="active">Account</a></li>
+      </ul>
+      
+      <div class="navbar__actions">
+        <button class="navbar__lang-btn" (click)="toggleLanguageMenu()">
+          <i class="fas fa-globe"></i> {{ currentLanguage }}
+        </button>
+        <button class="navbar__search-btn" (click)="toggleSearch()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== BREADCRUMB ===== -->
+<section class="breadcrumb">
+  <div class="container">
+    <nav class="breadcrumb__nav">
+      <a href="#" class="breadcrumb__link">Home</a>
+      <span><i class="fas fa-chevron-right"></i></span>
+      <a href="#" class="breadcrumb__link">Tracking</a>
+      <span><i class="fas fa-chevron-right"></i></span>
+      <span class="breadcrumb__current">Advanced Shipment Tracking</span>
+    </nav>
+  </div>
+</section>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content">
+  <div class="container">
+    <h1 class="main-title">Advanced Shipment Tracking</h1>
+    <p class="main-subtitle">
+      Get detailed tracking information for your shipments with our advanced tracking features.
+    </p>
+
+    <!-- ===== TRACKING OPTIONS ===== -->
+    <div class="tracking-options">
+      <div class="tracking-option-card">
+        <div class="option-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <h3>Real-time Location Tracking</h3>
+        <p>Track your shipment's exact location in real-time with our advanced GPS tracking system.</p>
+        <a href="#" class="option-link">Learn More <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="tracking-option-card">
+        <div class="option-icon">
+          <i class="fas fa-bell"></i>
+        </div>
+        <h3>Custom Alerts</h3>
+        <p>Set up personalized notifications for important shipment events and status changes.</p>
+        <a href="#" class="option-link">Learn More <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <div class="tracking-option-card">
+        <div class="option-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3>Analytics Dashboard</h3>
+        <p>Access detailed analytics and insights about your shipment's journey and performance.</p>
+        <a href="#" class="option-link">Learn More <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- ===== TRACKING FORM ===== -->
+    <div class="tracking-form-section">
+      <h2>Track Your Shipment</h2>
+      <form class="tracking-form" (ngSubmit)="trackShipment()">
+        <div class="form-group">
+          <label class="form-label" for="trackingNumber">Tracking Number</label>
+          <input 
+            type="text" 
+            id="trackingNumber"
+            class="form-input" 
+            placeholder="Enter tracking number"
+            [(ngModel)]="trackingNumber"
+            name="trackingNumber"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="shipmentType">Shipment Type</label>
+          <select 
+            id="shipmentType" 
+            class="form-select"
+            [(ngModel)]="shipmentType"
+            name="shipmentType"
+            required
+          >
+            <option value="">Select shipment type</option>
+            <option value="express">Express</option>
+            <option value="ground">Ground</option>
+            <option value="freight">Freight</option>
+            <option value="international">International</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Additional Services</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="enableAlerts" 
+                name="enableAlerts"
+              >
+              Enable Custom Alerts
+            </label>
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="enableAnalytics" 
+                name="enableAnalytics"
+              >
+              Enable Analytics
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="track-btn">Track Shipment</button>
+      </form>
+    </div>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="features-section">
+      <h2>Advanced Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-history"></i>
+          <h3>Historical Data</h3>
+          <p>Access complete shipment history and past tracking information.</p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-route"></i>
+          <h3>Route Optimization</h3>
+          <p>Get optimized delivery routes and estimated arrival times.</p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Security Features</h3>
+          <p>Enhanced security measures and tamper detection alerts.</p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-file-alt"></i>
+          <h3>Documentation</h3>
+          <p>Access all shipping documents and proof of delivery.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__content">
+      <div class="footer__section">
+        <h4>Our Company</h4>
+        <ul class="footer__links">
+          <li><a href="#">About FedEx</a></li>
+          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">International Holiday Schedule</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer__section">
+        <h4>New Customer</h4>
+        <ul class="footer__links">
+          <li><a href="#">Open an Account</a></li>
+          <li><a href="#">Shipping Services</a></li>
+          <li><a href="#">Business Solutions</a></li>
+          <li><a href="#">Developer Resources</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer__section">
+        <h4>More from FedEx</h4>
+        <ul class="footer__links">
+          <li><a href="#">Fuel Surcharges</a></li>
+          <li><a href="#">Resources</a></li>
+          <li><a href="#">FedEx Locations</a></li>
+          <li><a href="#">Service Updates</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer__section">
+        <h4>Language</h4>
+        <div class="language-selector">
+          <i class="fas fa-globe"></i>
+          <span>Morocco</span>
+        </div>
+        <select class="language-dropdown" [(ngModel)]="selectedLanguage" (change)="changeLanguage()">
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+          <option value="ar">العربية</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="footer__bottom">
+      <p>&copy; 2025 FedEx. All rights reserved. | Track the way you want</p>
+    </div>
+  </div>
+</footer> 

@@ -1,0 +1,108 @@
+<div class="dashboard-container">
+
+    <!-- 👋 Welcome Section -->
+    <section class="welcome">
+      <h2>Welcome back, ayoub</h2>
+      <p>Track and manage your shipments with our professional dashboard</p>
+    </section>
+  
+    <!-- 📊 Stats Cards -->
+    <section class="stats">
+      <div class="stat-card exception" (click)="filterByStatus('exception')">
+        <div class="icon">❗</div>
+        <div>
+          <h3>{{ stats.exception }}</h3>
+          <span>EXCEPTIONS</span>
+          <p class="trend down">↓ -2 from yesterday</p>
+        </div>
+      </div>
+      <div class="stat-card pending" (click)="filterByStatus('pending')">
+        <div class="icon">🏷️</div>
+        <div>
+          <h3>{{ stats.pending }}</h3>
+          <span>LABEL CREATED</span>
+          <p class="trend up">↑ +3 from yesterday</p>
+        </div>
+      </div>
+      <div class="stat-card delivered" (click)="filterByStatus('delivered')">
+        <div class="icon">✔️</div>
+        <div>
+          <h3>{{ stats.delivered }}</h3>
+          <span>DELIVERED</span>
+          <p class="trend up">↑ +5 from yesterday</p>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 📋 Table + Controls -->
+    <section class="table-controls">
+      <h3>All Shipments</h3>
+      <p>Showing {{ filteredShipments.length }} of {{ shipments.length }} shipments</p>
+  
+      <div class="actions">
+        <button (click)="resetFilters()">Reset Filters</button>
+        <button (click)="exportData()">Export JSON</button>
+      </div>
+    </section>
+  
+    <section class="shipment-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Tracking Number</th>
+            <th>Status</th>
+            <th>Scheduled Delivery Date</th>
+            <th>Scheduled Delivery Time</th>
+            <th>Shipper Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of filteredShipments">
+            <td><a href="#" (click)="viewShipmentDetails(s)">{{ s.tracking }}</a></td>
+            <td>{{ s.status | titlecase }}</td>
+            <td>{{ s.deliveryDate | date:'EEE, MMM d, y' }}</td>
+            <td>{{ s.deliveryTime }}</td>
+            <td>{{ s.shipper }}</td>
+            <td>
+              <button title="View" (click)="viewShipmentDetails(s)">👁️</button>
+              <button title="Edit">✏️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  
+    <!-- 🔍 Shipment Details Modal -->
+    <div class="modal-overlay" *ngIf="isModalOpen">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Shipment Details</h3>
+          <button (click)="closeModal()">✖</button>
+        </div>
+        <div class="modal-body" *ngIf="selectedShipment">
+          <div class="grid">
+            <div><strong>Tracking:</strong> {{ selectedShipment.tracking }}</div>
+            <div><strong>Status:</strong> {{ selectedShipment.status }}</div>
+            <div><strong>Shipper:</strong> {{ selectedShipment.shipper }}</div>
+            <div><strong>Destination:</strong> {{ selectedShipment.destination }}</div>
+            <div><strong>Delivery Date:</strong> {{ selectedShipment.deliveryDate | date }}</div>
+            <div><strong>Delivery Time:</strong> {{ selectedShipment.deliveryTime }}</div>
+            <div><strong>Weight:</strong> {{ selectedShipment.weight }}</div>
+            <div><strong>Service:</strong> {{ selectedShipment.service }}</div>
+            <div><strong>Reference:</strong> {{ selectedShipment.reference }}</div>
+          </div>
+  
+          <hr />
+          <h4>Tracking History</h4>
+          <ul>
+            <li>📦 Package delivered — May 25, 2025 at 2:30 PM</li>
+            <li>🚚 Out for delivery — May 25, 2025 at 8:00 AM</li>
+            <li>🏢 Arrived at facility — May 24, 2025 at 11:45 PM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  
